@@ -150,13 +150,13 @@ class FdoDetect(OsDetector):
     """
     def __init__(self, fdo_id):
         release_info = read_os_release()
-        if release_info is not None and release_info.has_key("ID") and release_info["ID"] == fdo_id:
+        if release_info is not None and release_info.get("ID") is not None and release_info["ID"] == fdo_id:
             self.release_info = release_info
         else:
             self.release_info = None
 
     def is_os(self):
-        return self.release_info is not None  and self.release_info.has_key("VERSION_ID")
+        return self.release_info is not None  and self.release_info.get("VERSION_ID") is not None
 
     def get_version(self):
         if self.is_os():
@@ -165,7 +165,7 @@ class FdoDetect(OsDetector):
 
     def get_codename(self):
         if self.is_os():
-            if self.release_info.has_key("VERSION"):
+            if self.release_info.get("VERSION") is not None:
                 version = self.release_info["VERSION"]
                 # FDO style: works with Fedora, Debian, Suse.
                 if version.find("(") is not -1:
